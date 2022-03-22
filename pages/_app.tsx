@@ -1,19 +1,11 @@
 import { AppProps } from "next/app";
-import Nav from "../components/Nav";
+
+import Layout from "../components/Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <Nav />
+    <Layout>
       <Component {...pageProps} />
-      <span>hello</span>
-      <style jsx global>
-        {`
-          a {
-            color: white;
-          }
-        `}
-      </style>
-    </>
+    </Layout>
   );
 }
