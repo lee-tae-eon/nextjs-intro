@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
 import Seo from "../components/Seo";
 
-const API_KEY = "6c2a18c3a603a48a447e48c59ffd5b1a";
-
 export default function Home() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const { results } = await (
-        await fetch(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
-        )
-      ).json();
+      const { results } = await (await fetch(`/api/movies`)).json();
 
       setMovies(results);
     })();
@@ -24,7 +18,10 @@ export default function Home() {
       {!movies && <h4>Loading...</h4>}
       {movies?.map((movie: any) => (
         <div className="movie" key={movie.id}>
-          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            alt="이미지"
+          />
           <h4>{movie.original_title}</h4>
         </div>
       ))}
