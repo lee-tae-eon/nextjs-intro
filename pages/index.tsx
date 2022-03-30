@@ -1,21 +1,41 @@
-import { GetServerSideProps } from "next";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 import Seo from "../components/Seo";
 
 export default function Home({ results }: any) {
+  const router = useRouter();
+
+  const onClick = (id: string, title: string) => {
+    router.replace({
+      pathname: `/movies/${title}/${id}`,
+    });
+  };
+
   return (
     <div className="container">
       <Seo title="Home" />
 
       {results?.map((movie: any) => (
-        <div className="movie" key={movie.id}>
+        <div
+          onClick={() => onClick(movie.id, movie.original_title)}
+          key={movie.id}
+          className="movie"
+        >
           <img
-            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt="이미지"
           />
-          <h4>{movie.original_title}</h4>
+          <Link
+            href={{
+              pathname: `/movies/${movie.original_title}/${movie.id}`,
+            }}
+          >
+            <a>{movie.original_title}</a>
+          </Link>
         </div>
       ))}
+
       <style jsx>{`
         .container {
           display: grid;
@@ -31,6 +51,9 @@ export default function Home({ results }: any) {
         }
         .movie:hover img {
           transform: scale(1.05) translateY(-10px);
+        }
+        .movie {
+          cursor: pointer;
         }
         .movie h4 {
           font-size: 18px;
